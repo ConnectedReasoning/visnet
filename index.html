@@ -1,0 +1,345 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>Timeline basic demo</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.4.0/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.css" rel="stylesheet" type="text/css" />
+  <style type="text/css">
+    body, html {
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+<div id="visualization"></div>
+<div id="lineart"></div>
+<div id="mynetwork"></div>
+
+<script type="text/javascript">
+  var container = document.getElementById('visualization');
+  var data = [
+    {id: '1', content: 'item 1', start: '2013-04-20', className:'first'},
+    {id: '2', content: 'item 2', start: '2013-04-14', className:'second'},
+    {id: '3', content: 'item 3', start: '2013-04-18', className:'third'},
+    {id: '4', content: 'item 4', start: '2013-04-16', end: '2013-04-19', className:'fourth'},
+    {id: '5', content: 'item 5', start: '2013-04-25', className:'fifth'},
+    {id: '6', content: 'item 6', start: '2013-04-27', className:'sixth'}
+  ];
+  var options = {};
+  var timeline = new vis.Timeline(container, data, options);
+ //The data for our line
+</script>
+
+<script>
+  var svgContainer = d3.select(".vis-timeline").append("svg")
+                                      .attr("width", 1600)
+                                      .attr("height", 600);
+
+  function isNonNegativeInteger(str) {
+      var n = ~~Number(str);
+      return String(n) === str && n >= 0;
+  }
+
+  function getBox(name) {
+    var box = {};
+    box.name = name;
+    var boxPosition = $('.vis-item.vis-box.'+name)[0];
+    var boxDimensions = $('.vis-box.' + name + ' > .vis-item-content')[0];  
+    var rangePosition = $('.vis-item.vis-range.'+name)[0];
+    var rangeDimensions = $('.vis-range.' + name + ' > .vis-item-overflow > .vis-item-content')[0];  
+
+    if( typeof(boxPosition) != 'undefined' || typeof(boxDimensions) != 'undefined'){
+      if(boxPosition && boxPosition.style  && boxPosition.style.top && boxPosition.style.top.includes('px')){
+        box.top = parseInt(boxPosition.style.top.replace('px', ''));
+      }
+      if(boxPosition && boxPosition.style && boxPosition.style.left&& boxPosition.style.left.includes('px')){
+        box.left = parseInt(boxPosition.style.left.replace('px', ''));
+      }
+      box.height = boxDimensions.offsetHeight;
+      box.width = boxDimensions.offsetWidth;
+    } else {
+      if( typeof(rangePosition) != 'undefined' || typeof(rangeDimensions) != 'undefined'){
+        if(rangePosition && rangePosition.style  && rangePosition.style.top && rangePosition.style.top.includes('px')){
+          box.top = parseInt(rangePosition.style.top.replace('px', ''));
+        }
+        if(rangePosition && rangePosition.style && rangePosition.style.left&& rangePosition.style.left.includes('px')){
+          box.left = parseInt(rangePosition.style.left.replace('px', ''));
+        }
+        box.height = rangeDimensions.offsetHeight;
+        box.width = rangeDimensions.offsetWidth;
+      }  
+    }
+    if(!Number.isInteger(box.top)  || !Number.isInteger(box.left) || !Number.isInteger(box.height)  || !Number.isInteger(box.width) || 
+        box.top < 0 || box.left < 0 || box.height < 0 || box.width < 0){
+      box = null;  
+    }
+    return box;
+  }
+  function lineSetAhead(originBox, linkBox){
+    //one segment
+    var lines = [];
+    var line = {}
+    //juts out
+    line.x1 = originBox.left + originBox.width
+    line.y1 = originBox.top + (originBox.height/2)
+    line.x2 = linkBox.left;
+    line.y2 = line.y1;
+    lines.push(line);
+    return lines;
+  } 
+  function originBehindAndAbove(originBox, linkBox){
+    //five segments;
+    var lines = [];
+    var line = {};
+    verticalDistance = ( originBox.top < linkBox.top) ? -(originBox.height/2)-15 : (originBox.height/2)+15;
+   //juts out
+    line = {};
+    line.x1 = originBox.left + originBox.width;
+    line.y1 = originBox.top + (originBox.height/2);
+    line.x2 = originBox.left + originBox.width + 40;
+    line.y2 = originBox.top + (originBox.height/2);
+    lines.push(line);
+    
+    //moves  down
+    line = {};
+    line.x1 = originBox.left + originBox.width + 38;
+    line.y1 = originBox.top + (originBox.height/2);
+    line.x2 = originBox.left + originBox.width + 38;
+    line.y2 = linkBox.top + (linkBox.height/2) - 18;
+    lines.push(line);
+    
+    //moves back
+    line = {};
+    line.x1 = originBox.left + originBox.width + 38;
+    line.y1 = linkBox.top + (linkBox.height/2) - 18;
+    line.x2 = linkBox.left - 10;
+    line.y2 = linkBox.top + (linkBox.height/2)-18;
+    lines.push(line);
+    
+      //moves up or down
+    line = {};
+    line.x1 = linkBox.left - 12;
+    line.y1 = linkBox.top + (linkBox.height/2) - 18;
+    line.x2 = linkBox.left - 12;
+    line.y2 = linkBox.top + (originBox.height/2) + 5;
+    lines.push(line); 
+
+      //juts in 
+    line = {};      
+    line.x1 = linkBox.left - 12;
+    line.y1 = linkBox.top + (originBox.height/2) + 5;
+    line.x2 = linkBox.left;
+    line.y2 = linkBox.top + (linkBox.height/2) + 5;
+    lines.push(line); 
+
+
+    return lines;    
+  }
+  function originBehindAndBelow(originBox, linkBox){
+    //five segments;
+    var lines = [];
+    var line = {};
+    verticalDistance = ( originBox.top < linkBox.top) ? -(originBox.height/2)-15 : (originBox.height/2)+15;
+   //juts out
+    line = {};
+    line.x1 = originBox.left + originBox.width;
+    line.y1 = originBox.top + (originBox.height/2);
+    line.x2 = originBox.left + originBox.width + 10;
+    line.y2 = originBox.top + (originBox.height/2);
+    lines.push(line);
+    
+    //moves  down
+    line = {};
+    line.x1 = originBox.left + originBox.width + 8;
+    line.y1 = originBox.top + (originBox.height/2);
+    line.x2 = originBox.left + originBox.width + 8;
+    line.y2 = originBox.top + originBox.height +10;
+    lines.push(line);
+    
+    //moves back
+    line = {};
+    line.x1 = originBox.left + originBox.width + 8;
+    line.y1 = originBox.top + originBox.height + 8;
+    line.x2 = linkBox.left - 20;
+    line.y2 = originBox.top + originBox.height + 8;
+    lines.push(line);
+    
+      //moves up or down
+    line = {};
+    line.x1 = linkBox.left - 20;
+    line.y1 = originBox.top + originBox.height + 6;
+    line.x2 = linkBox.left - 20;
+    line.y2 = linkBox.top + (originBox.height/2) + 6;
+    lines.push(line); 
+
+      //juts in 
+    line = {};      
+    line.x1 = linkBox.left - 20;
+    line.y1 = linkBox.top + (originBox.height/2) + 6;
+    line.x2 = linkBox.left;
+    line.y2 = linkBox.top + (linkBox.height/2) + 5;
+    lines.push(line); 
+
+
+    return lines;
+  }
+  function originAheadAndAbove(originBox, linkBox){
+    //one segment
+    var lines = [];
+    var line = {}
+    //juts out
+    line = {};
+    line.x1 = originBox.left + originBox.width;
+    line.y1 = originBox.top + (originBox.height/2);
+    line.x2 = originBox.left + originBox.width + 12;
+    line.y2 = originBox.top + (originBox.height/2);
+    lines.push(line);
+    
+    //moves down
+    line = {};
+    line.x1 = originBox.left + originBox.width + 10;
+    line.y1 = originBox.top + (originBox.height/2)-2;
+    line.x2 = originBox.left + originBox.width + 10;
+    line.y2 = originBox.top + originBox.height + 7;
+    lines.push(line);   
+
+    //moves back
+    line = {};
+    line.x1 = originBox.left + originBox.width + 10;
+    line.y1 = originBox.top + originBox.height +7;
+    line.x2 = linkBox.left - 22;
+    line.y2 = originBox.top + originBox.height +7;
+    lines.push(line); 
+
+    //moves down
+    line = {};
+    line.x1 = linkBox.left - 20;
+    line.y1 = originBox.top + originBox.height +7;
+    line.x2 = linkBox.left - 20;
+    line.y2 = linkBox.top + (linkBox.height/2)+2;
+    lines.push(line);  
+
+    //juts in
+    line = {};
+    line.x1 = linkBox.left - 20;
+    line.y1 = linkBox.top + (linkBox.height/2);
+    line.x2 = linkBox.left;
+    line.y2 = linkBox.top + (linkBox.height/2);
+    lines.push(line);    
+    return lines;
+  }
+  function originAheadAndBelow(originBox, linkBox){
+    //five segments;
+    //one segment
+    var lines = [];
+    var line = {}
+    //juts out
+    line = {};
+    line.x1 = originBox.left + originBox.width;
+    line.y1 = originBox.top + (originBox.height/2);
+    line.x2 = originBox.left + originBox.width + 20;
+    line.y2 = originBox.top + (originBox.height/2);
+    lines.push(line);
+
+    //moves up
+    line = {};
+    line.x1 = originBox.left + originBox.width + 20;
+    line.y1 = originBox.top + (originBox.height/2)+2;
+    line.x2 = originBox.left + originBox.width + 20;
+    line.y2 = originBox.top - 7.5;
+    lines.push(line);   
+
+    //moves back
+    line = {};
+    line.x1 = originBox.left + originBox.width + 20;
+    line.y1 = originBox.top - 5;
+    line.x2 = linkBox.left - 22;
+    line.y2 = originBox.top - 5;
+    lines.push(line);   
+
+    //moves up
+    line = {};
+    line.x1 = linkBox.left - 22;
+    line.y1 = originBox.top - 3;
+    line.x2 = linkBox.left - 22;
+    line.y2 = linkBox.top + (originBox.height/2) -2;
+    lines.push(line); 
+
+    //juts out
+    line = {};
+    line.x1 = linkBox.left - 20;
+    line.y1 = linkBox.top + (originBox.height/2);
+    line.x2 = linkBox.left;
+    line.y2 = linkBox.top + (originBox.height/2);
+    lines.push(line);
+    return lines;
+  } 
+  function drawLink(origin, link){
+    
+    var originBox = getBox(origin);
+    var linkBox = getBox(link);
+    var lines = [];
+    
+    if(originBox !== null && linkBox !== null){
+      if(originBox.left + originBox.width < linkBox.left &&  originBox.top > linkBox.top){
+        console.log(origin + ' is ahead and above ' + link);
+        console.log(originBox, linkBox)
+        lines = originBehindAndAbove(originBox, linkBox);
+      }      
+      if(originBox.left + originBox.width < linkBox.left &&  originBox.top < linkBox.top){
+        console.log(origin + ' is behind and below ' + link );
+        console.log(originBox, linkBox)
+        lines = originBehindAndBelow(originBox, linkBox);
+      }  
+      if(originBox.left + originBox.width >= linkBox.left &&  originBox.top < linkBox.top){
+        console.log(origin + ' is ahead and above ' + link);
+        console.log(originBox, linkBox)
+        lines = originAheadAndAbove(originBox, linkBox);
+      } 
+      if(originBox.left + originBox.width >= linkBox.left &&  originBox.top < linkBox.top){
+        console.log(originBox, linkBox)
+        console.log(origin + ' is ahead and below ' + link );
+        lines = originAheadAndBelow(originBox, linkBox);
+      }
+      if(originBox.left + originBox.width < linkBox.left &&  originBox.top === linkBox.top){
+        console.log(origin + ' is ahead and same height as ' + link );
+        console.log(originBox, linkBox)
+        lines = lineSetAhead(originBox, linkBox);
+      } 
+      
+    
+      
+      //Draw the lines
+      var color = '#' + ("000000" + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
+      for(i = 0; i < lines.length; i++){
+        var line = svgContainer.append("line")
+                                  .attr("stroke", color)
+                                  .attr("stroke-width", "5px")
+                                  .attr("x1", lines[i].x1)
+                                  .attr("y1", lines[i].y1)
+                                  .attr("x2", lines[i].x2)
+                                  .attr("y2", lines[i].y2);
+                        
+      } 
+    }
+  }
+
+  timeline.on('changed', function () {
+    console.log('changed items: ');
+    d3.selectAll("svg > *").remove();
+    var boxes = [];
+    //drawLink('first', 'second');
+    //drawLink('second', 'third');
+    //drawLink('third', 'fourth');
+    drawLink('fourth', 'fifth');
+    //drawLink('fifth', 'sixth');
+
+  });
+
+ //Make an SVG Container
+
+</script>
+</body>
+</html>
