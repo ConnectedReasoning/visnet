@@ -80,7 +80,7 @@
   function drawArrowTip(tip){
 
   }
-  function lineSetAhead(originBox, linkBox){
+  function drawLineStraightAhead(originBox, linkBox){
     //one segment
     var lines = [];
     var arrowTip = [];
@@ -94,7 +94,7 @@
 
     return lines;
   } 
-  function originBehindAndAbove(originBox, linkBox){
+  function drawLineFromBehindAndAbove(originBox, linkBox){
     //five segments;
     var lines = [];
     var line = {};
@@ -125,7 +125,7 @@
 
     return lines;    
   }
-  function originBehindAndBelow(originBox, linkBox){
+  function drawLineFromBehindAndBelow(originBox, linkBox){
     //three segments;
     var lines = [];
     var line = {};
@@ -158,7 +158,7 @@
 
     return lines;
   }
-  function originAheadAndAbove(originBox, linkBox){
+  function drawLineFromAheadAndAbove(originBox, linkBox){
     //one segment
     var lines = [];
     var line = {}
@@ -203,7 +203,7 @@
     lines.push(line);    
     return lines;
   }
-  function originAheadAndBelow(originBox, linkBox){
+  function drawLineFromAheadAndBelow(originBox, linkBox){
     //five segments;
     //one segment
     var lines = [];
@@ -259,27 +259,27 @@
       if(originBox.left + originBox.width < linkBox.left &&  originBox.top < linkBox.top){
         console.log(origin + ' is behind and above ' + link);
         console.log(originBox, linkBox)
-        lines = originBehindAndAbove(originBox, linkBox);
+        lines = drawLineFromBehindAndAbove(originBox, linkBox);
       }      
       if(originBox.left + originBox.width < linkBox.left &&  originBox.top > linkBox.top){
         console.log(origin + ' is behind and below ' + link );
         console.log(originBox, linkBox)
-        lines = originBehindAndBelow(originBox, linkBox);
+        lines = drawLineFromBehindAndBelow(originBox, linkBox);
       }  
       if(originBox.left + originBox.width >= linkBox.left &&  originBox.top < linkBox.top){
         console.log(origin + ' is ahead and above ' + link);
         console.log(originBox, linkBox)
-        lines = originAheadAndAbove(originBox, linkBox);
+        lines = drawLineFromAheadAndAbove(originBox, linkBox);
       } 
       if(originBox.left + originBox.width >= linkBox.left &&  originBox.top > linkBox.top){
         console.log(originBox, linkBox)
         console.log(origin + ' is ahead and below ' + link );
-        lines = originAheadAndBelow(originBox, linkBox);
+        lines = drawLineFromAheadAndBelow(originBox, linkBox);
       }
       if(originBox.left + originBox.width < linkBox.left &&  originBox.top === linkBox.top){
         console.log(origin + ' is ahead and same height as ' + link );
         console.log(originBox, linkBox)
-        lines = lineSetAhead(originBox, linkBox);
+        lines = drawLineStraightAhead(originBox, linkBox);
       } 
       
     
@@ -303,11 +303,11 @@
     console.log('changed items: ');
     d3.selectAll("svg > *").remove();
     var boxes = [];
-    //drawLink('first', 'second');
-    //drawLink('second', 'third');
-    //drawLink('third', 'fourth');
+    drawLink('first', 'second');
+    drawLink('second', 'third');
+    drawLink('third', 'fourth');
     drawLink('fourth', 'fifth');
-    //drawLink('fifth', 'sixth');
+    drawLink('fifth', 'sixth');
 
   });
 
