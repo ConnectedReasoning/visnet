@@ -80,20 +80,7 @@
   function drawArrowTip(tip){
 
   }
-  function drawLineStraightAhead(originBox, linkBox){
-    //one segment
-    var lines = [];
-    var arrowTip = [];
-    var line = {}
-    //juts out
-    line.x1 = originBox.left + originBox.width
-    line.y1 = originBox.top + (originBox.height/2)
-    line.x2 = linkBox.left;
-    line.y2 = line.y1;
-    lines.push(line);
 
-    return lines;
-  } 
   function drawLineFromBehindAndAbove(originBox, linkBox){
     //five segments;
     var lines = [];
@@ -205,7 +192,6 @@
   }
   function drawLineFromAheadAndBelow(originBox, linkBox){
     //five segments;
-    //one segment
     var lines = [];
     var line = {}
     //juts out
@@ -249,6 +235,67 @@
     lines.push(line);
     return lines;
   } 
+  function drawLineStraightAhead(originBox, linkBox){
+    //one segment
+    var lines = [];
+    var arrowTip = [];
+    var line = {}
+    //juts out
+    line.x1 = originBox.left + originBox.width
+    line.y1 = originBox.top + (originBox.height/2)
+    line.x2 = linkBox.left;
+    line.y2 = line.y1;
+    lines.push(line);
+
+    return lines;
+  } 
+  function drawLineStraightBehind(originBox, linkBox){
+    var lines = [];
+    var line = {}
+    //juts out
+    line = {};
+    line.x1 = originBox.left + originBox.width;
+    line.y1 = originBox.top + (originBox.height/2);
+    line.x2 = originBox.left + originBox.width + 20;
+    line.y2 = originBox.top + (originBox.height/2);
+    lines.push(line);
+
+    //moves up
+    line = {};
+    line.x1 = originBox.left + originBox.width + 20;
+    line.y1 = originBox.top + (originBox.height/2)+2;
+    line.x2 = originBox.left + originBox.width + 20;
+    line.y2 = originBox.top - 7.5;
+    lines.push(line);   
+
+    //moves back
+    line = {};
+    line.x1 = originBox.left + originBox.width + 20;
+    line.y1 = originBox.top - 5;
+    line.x2 = linkBox.left - 22;
+    line.y2 = originBox.top - 5;
+    lines.push(line);  
+
+    //moves down
+    line = {};
+    line.x1 = linkBox.left - 22;
+    line.y1 = originBox.top - 5;
+    line.x2 = linkBox.left - 22;
+    line.y2 = linkBox.top + (linkBox.height/2)+2;
+    lines.push(line);  
+
+    //juts in
+    line = {};
+    line.x1 = linkBox.left - 22;
+    line.y1 = linkBox.top + (linkBox.height/2) + 2;
+    line.x2 = linkBox.left;
+    line.y2 = linkBox.top + (linkBox.height/2) + 2;
+    lines.push(line);    
+
+    return lines;
+  }   
+
+
   function drawLink(origin, link){
     
     var originBox = getBox(origin);
@@ -257,69 +304,65 @@
     
     if(originBox !== null && linkBox !== null){
       if(originBox.left + originBox.width < linkBox.left &&  originBox.top < linkBox.top){
-        console.log(origin + ' is behind and above ' + link);
-        console.log(originBox, linkBox)
+        //console.log(origin + ' is behind and above ' + link);
+        //console.log(originBox, linkBox)
         lines = drawLineFromBehindAndAbove(originBox, linkBox);
       }      
       if(originBox.left + originBox.width < linkBox.left &&  originBox.top > linkBox.top){
-        console.log(origin + ' is behind and below ' + link );
-        console.log(originBox, linkBox)
+        //console.log(origin + ' is behind and below ' + link );
+        //console.log(originBox, linkBox)
         lines = drawLineFromBehindAndBelow(originBox, linkBox);
       }  
       if(originBox.left + originBox.width >= linkBox.left &&  originBox.top < linkBox.top){
-        console.log(origin + ' is ahead and above ' + link);
-        console.log(originBox, linkBox)
+        //console.log(origin + ' is ahead and above ' + link);
+        //console.log(originBox, linkBox)
         lines = drawLineFromAheadAndAbove(originBox, linkBox);
       } 
       if(originBox.left + originBox.width >= linkBox.left &&  originBox.top > linkBox.top){
-        console.log(originBox, linkBox)
-        console.log(origin + ' is ahead and below ' + link );
+        //console.log(originBox, linkBox)
+        //console.log(origin + ' is ahead and below ' + link );
         lines = drawLineFromAheadAndBelow(originBox, linkBox);
       }
       if(originBox.left + originBox.width < linkBox.left &&  originBox.top === linkBox.top){
-        console.log(origin + ' is ahead and same height as ' + link );
-        console.log(originBox, linkBox)
+        //console.log(origin + ' is ahead and same height as ' + link );
+        //console.log(originBox, linkBox)
         lines = drawLineStraightAhead(originBox, linkBox);
       } 
-      
+       if(originBox.left + originBox.width > linkBox.left &&  originBox.top === linkBox.top){
+        //console.log(origin + ' is behind and same height as ' + link );
+        //console.log(originBox, linkBox)
+        lines = drawLineStraightBehind(originBox, linkBox);
+      }      
     
       
       //Draw the lines
       var color = '#' + ("000000");// + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
       for(i = 0; i < lines.length; i++){
         svgContainer.append("line")
-              .attr("stroke", color)
-              .attr("stroke-width", "5px")
-              .attr("x1", lines[i].x1)
-              .attr("y1", lines[i].y1)
-              .attr("x2", lines[i].x2)
-              .attr("y2", lines[i].y2);
-                     
+          .attr("stroke", color)
+          .attr("stroke-width", "2px")
+          .attr("x1", lines[i].x1)
+          .attr("y1", lines[i].y1)
+          .attr("x2", lines[i].x2)
+          .attr("y2", lines[i].y2);                
       } 
-      var l
-      /*
-      //start from the end of the last line and move clockwise
-      svgContainer.selectAll("polygon")
-            .data([
-              {"x": lines[length].x2, "y":lines[length].y2},
-              {"x": lines[length].x2-5, "y":lines[length].y2}+3,
-              {"x": lines[length].x2-5, "y":lines[length].y2}-6,
-              {"x": lines[length].x2, "y":lines[length].y2},
-            ])
-              .enter().append("polygon")
-              .attr("points",function(d) { 
-                  return d.map(function(d) {
-                      return [scaleX(d.x),scaleY(d.y)].join(",");
-                  }).join(" ");
-              })
-              .attr("stroke","black")
-              .attr("stroke-width",2);
-      */
 
-    }
+      //Draw the arrowheads
+      var lastCoords = lines[lines.length-1];
+      var arrowhead = '';
+
+      arrowhead = arrowhead +        (lastCoords.x2+5)  + ',' + (lastCoords.y2+1)
+      arrowhead = arrowhead + ' ' +  (lastCoords.x2-15) + ',' + (lastCoords.y2+5) 
+      arrowhead = arrowhead + ' ' +  (lastCoords.x2-15) + ',' + (lastCoords.y2-5) 
+      arrowhead = arrowhead + ' ' +  (lastCoords.x2+5)  + ',' + (lastCoords.y2+1)
+
+      svgContainer.append("polygon")      
+        .style("stroke", "black") 
+        .style("fill", "black")     
+        .attr("points", arrowhead);                     
+      }
   }
   timeline.on('changed', function () {
-    console.log('changed items: ');
     d3.selectAll("svg > *").remove();
     var boxes = [];
     drawLink('first', 'second');
