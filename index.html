@@ -82,7 +82,7 @@
   }
 
   function drawLineFromBehindAndAbove(originBox, linkBox){
-    //five segments;
+    //Three segments;
     var lines = [];
     var line = {};
     verticalDistance = ( originBox.top < linkBox.top) ? -(originBox.height/2)-15 : (originBox.height/2)+15;
@@ -116,8 +116,8 @@
     //three segments;
     var lines = [];
     var line = {};
-    verticalDistance = ( originBox.top < linkBox.top) ? -(originBox.height/2)-15 : (originBox.height/2)+15;
-   //juts out
+
+    //juts out
     line = {};
     line.x1 = originBox.left + originBox.width;
     line.y1 = originBox.top + (originBox.height/2);
@@ -133,8 +133,7 @@
     line.y2 = linkBox.top + (originBox.height/2);
     lines.push(line);
     
-
-      //juts in 
+    //juts in 
     line = {};      
     line.x1 = (originBox.left + originBox.width + (linkBox.left - (originBox.left + originBox.width))/2);
     line.y1 = linkBox.top + (originBox.height/2);
@@ -153,32 +152,32 @@
     line = {};
     line.x1 = originBox.left + originBox.width;
     line.y1 = originBox.top + (originBox.height/2);
-    line.x2 = originBox.left + originBox.width + 12;
+    line.x2 = originBox.left + originBox.width + 15;
     line.y2 = originBox.top + (originBox.height/2);
     lines.push(line);
     
     //moves down
     line = {};
-    line.x1 = originBox.left + originBox.width + 10;
-    line.y1 = originBox.top + (originBox.height/2)-2;
-    line.x2 = originBox.left + originBox.width + 10;
-    line.y2 = originBox.top + originBox.height + 7;
+    line.x1 = originBox.left + originBox.width + 15;
+    line.y1 = originBox.top + (originBox.height/2);
+    line.x2 = originBox.left + originBox.width + 15;
+    line.y2 = originBox.top + originBox.height + 3;
     lines.push(line);   
 
     //moves back
     line = {};
-    line.x1 = originBox.left + originBox.width + 10;
-    line.y1 = originBox.top + originBox.height +7;
-    line.x2 = linkBox.left - 22;
-    line.y2 = originBox.top + originBox.height +7;
+    line.x1 = originBox.left + originBox.width + 15;
+    line.y1 = originBox.top + originBox.height +3;
+    line.x2 = linkBox.left - 20;
+    line.y2 = originBox.top + originBox.height +3;
     lines.push(line); 
 
     //moves down
     line = {};
     line.x1 = linkBox.left - 20;
-    line.y1 = originBox.top + originBox.height +7;
+    line.y1 = originBox.top + originBox.height +3;
     line.x2 = linkBox.left - 20;
-    line.y2 = linkBox.top + (linkBox.height/2)+2;
+    line.y2 = linkBox.top + (linkBox.height/2);
     lines.push(line);  
 
     //juts in
@@ -198,32 +197,32 @@
     line = {};
     line.x1 = originBox.left + originBox.width;
     line.y1 = originBox.top + (originBox.height/2);
-    line.x2 = originBox.left + originBox.width + 20;
+    line.x2 = originBox.left + originBox.width + 15;
     line.y2 = originBox.top + (originBox.height/2);
     lines.push(line);
 
     //moves up
     line = {};
-    line.x1 = originBox.left + originBox.width + 20;
-    line.y1 = originBox.top + (originBox.height/2)+2;
-    line.x2 = originBox.left + originBox.width + 20;
-    line.y2 = originBox.top - 7.5;
+    line.x1 = originBox.left + originBox.width + 15;
+    line.y1 = originBox.top + (originBox.height/2);
+    line.x2 = originBox.left + originBox.width + 15;
+    line.y2 = originBox.top - 3;
     lines.push(line);   
 
     //moves back
     line = {};
-    line.x1 = originBox.left + originBox.width + 20;
-    line.y1 = originBox.top - 5;
-    line.x2 = linkBox.left - 22;
-    line.y2 = originBox.top - 5;
+    line.x1 = originBox.left + originBox.width + 15;
+    line.y1 = originBox.top - 3;
+    line.x2 = linkBox.left - 20;
+    line.y2 = originBox.top - 3;
     lines.push(line);   
 
     //moves up
     line = {};
-    line.x1 = linkBox.left - 22;
+    line.x1 = linkBox.left - 20;
     line.y1 = originBox.top - 3;
-    line.x2 = linkBox.left - 22;
-    line.y2 = linkBox.top + (originBox.height/2) -2;
+    line.x2 = linkBox.left - 20;
+    line.y2 = linkBox.top + (originBox.height/2);
     lines.push(line); 
 
     //juts out
@@ -263,80 +262,79 @@
     //moves up
     line = {};
     line.x1 = originBox.left + originBox.width + 20;
-    line.y1 = originBox.top + (originBox.height/2)+2;
+    line.y1 = originBox.top + (originBox.height/2);
     line.x2 = originBox.left + originBox.width + 20;
-    line.y2 = originBox.top - 7.5;
+    line.y2 = originBox.top - 5;
     lines.push(line);   
 
     //moves back
     line = {};
     line.x1 = originBox.left + originBox.width + 20;
     line.y1 = originBox.top - 5;
-    line.x2 = linkBox.left - 22;
+    line.x2 = linkBox.left - 20;
     line.y2 = originBox.top - 5;
     lines.push(line);  
 
     //moves down
     line = {};
-    line.x1 = linkBox.left - 22;
+    line.x1 = linkBox.left - 20;
     line.y1 = originBox.top - 5;
-    line.x2 = linkBox.left - 22;
-    line.y2 = linkBox.top + (linkBox.height/2)+2;
+    line.x2 = linkBox.left - 20;
+    line.y2 = linkBox.top + (linkBox.height/2);
     lines.push(line);  
 
     //juts in
     line = {};
-    line.x1 = linkBox.left - 22;
-    line.y1 = linkBox.top + (linkBox.height/2) + 2;
+    line.x1 = linkBox.left - 20;
+    line.y1 = linkBox.top + (linkBox.height/2);
     line.x2 = linkBox.left;
-    line.y2 = linkBox.top + (linkBox.height/2) + 2;
+    line.y2 = linkBox.top + (linkBox.height/2);
     lines.push(line);    
 
     return lines;
   }   
 
-
-  function drawLink(origin, link){
+  function drawLink(origin, link, color){
     
     var originBox = getBox(origin);
     var linkBox = getBox(link);
     var lines = [];
     
     if(originBox !== null && linkBox !== null){
-      if(originBox.left + originBox.width < linkBox.left &&  originBox.top < linkBox.top){
-        //console.log(origin + ' is behind and above ' + link);
-        //console.log(originBox, linkBox)
+      if((originBox.left + originBox.width + 10) < linkBox.left &  originBox.top < linkBox.top){
+        console.log(origin + ' is behind and above ' + link);
+        console.log(originBox, linkBox)
         lines = drawLineFromBehindAndAbove(originBox, linkBox);
       }      
-      if(originBox.left + originBox.width < linkBox.left &&  originBox.top > linkBox.top){
-        //console.log(origin + ' is behind and below ' + link );
-        //console.log(originBox, linkBox)
+      if((originBox.left + originBox.width + 10) < linkBox.left &  originBox.top > linkBox.top){
+        console.log(origin + ' is behind and below ' + link );
+        console.log(originBox, linkBox)
         lines = drawLineFromBehindAndBelow(originBox, linkBox);
       }  
-      if(originBox.left + originBox.width >= linkBox.left &&  originBox.top < linkBox.top){
-        //console.log(origin + ' is ahead and above ' + link);
-        //console.log(originBox, linkBox)
+      if((originBox.left + originBox.width + 35) >= linkBox.left &  originBox.top < linkBox.top){
+        console.log(origin + ' is ahead and above ' + link);
+        console.log(originBox, linkBox)
         lines = drawLineFromAheadAndAbove(originBox, linkBox);
       } 
-      if(originBox.left + originBox.width >= linkBox.left &&  originBox.top > linkBox.top){
-        //console.log(originBox, linkBox)
-        //console.log(origin + ' is ahead and below ' + link );
+      if((originBox.left + originBox.width + 35) >= linkBox.left &  originBox.top > linkBox.top){
+        console.log(originBox, linkBox)
+        console.log(origin + ' is ahead and below ' + link );
         lines = drawLineFromAheadAndBelow(originBox, linkBox);
       }
-      if(originBox.left + originBox.width < linkBox.left &&  originBox.top === linkBox.top){
-        //console.log(origin + ' is ahead and same height as ' + link );
-        //console.log(originBox, linkBox)
+      if((originBox.left + originBox.width) < linkBox.left &  originBox.top === linkBox.top){
+        console.log(origin + ' is behind and same height as ' + link );
+        console.log(originBox, linkBox)
         lines = drawLineStraightAhead(originBox, linkBox);
       } 
-       if(originBox.left + originBox.width > linkBox.left &&  originBox.top === linkBox.top){
-        //console.log(origin + ' is behind and same height as ' + link );
-        //console.log(originBox, linkBox)
+      if((originBox.left + originBox.width +15) >=  linkBox.left &  originBox.top === linkBox.top){
+        console.log(origin + ' is ahead and same height as ' + link );
+        console.log(originBox, linkBox)
         lines = drawLineStraightBehind(originBox, linkBox);
       }      
     
       
       //Draw the lines
-      var color = '#' + ("000000");// + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
+      var color = color; //'#' + ("000000");// + Math.random().toString(16).slice(2, 8).toUpperCase()).slice(-6)
       for(i = 0; i < lines.length; i++){
         svgContainer.append("line")
           .attr("stroke", color)
@@ -351,25 +349,25 @@
       var lastCoords = lines[lines.length-1];
       var arrowhead = '';
 
-      arrowhead = arrowhead +        (lastCoords.x2+5)  + ',' + (lastCoords.y2+1)
+      arrowhead = arrowhead +        (lastCoords.x2)  + ',' + (lastCoords.y2)
       arrowhead = arrowhead + ' ' +  (lastCoords.x2-15) + ',' + (lastCoords.y2+5) 
       arrowhead = arrowhead + ' ' +  (lastCoords.x2-15) + ',' + (lastCoords.y2-5) 
-      arrowhead = arrowhead + ' ' +  (lastCoords.x2+5)  + ',' + (lastCoords.y2+1)
+      arrowhead = arrowhead + ' ' +  (lastCoords.x2)  + ',' + (lastCoords.y2)
 
       svgContainer.append("polygon")      
-        .style("stroke", "black") 
-        .style("fill", "black")     
+        .style("stroke", color) 
+        .style("fill", color)     
         .attr("points", arrowhead);                     
       }
   }
   timeline.on('changed', function () {
     d3.selectAll("svg > *").remove();
     var boxes = [];
-    drawLink('first', 'second');
-    drawLink('second', 'third');
-    drawLink('third', 'fourth');
-    drawLink('fourth', 'fifth');
-    drawLink('fifth', 'sixth');
+    drawLink('first', 'second', 'black');
+    drawLink('second', 'third', 'black');
+    drawLink('third', 'fourth', 'black');
+    drawLink('fourth', 'fifth', 'red');
+    drawLink('fifth', 'sixth', 'black');
 
   });
 
