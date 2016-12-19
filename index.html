@@ -47,14 +47,14 @@
       var n = ~~Number(str);
       return String(n) === str && n >= 0;
   }
-function findWithAttr(array, attr, value) {
-    for(var i = 0; i < array.length; i += 1) {
-        if(array[i][attr] === value) {
-            return i;
-        }
-    }
-    return -1;
-}
+  function findWithAttr(array, attr, value) {
+      for(var i = 0; i < array.length; i += 1) {
+          if(array[i][attr] === value) {
+              return i;
+          }
+      }
+      return -1;
+  }
   function getBox(id, offsetWidth, groupHeights) {
     var box = {};
     if(id === '6'){
@@ -321,7 +321,6 @@ function findWithAttr(array, attr, value) {
 
     return lines;
   }   
-
   function drawLink(origin, link, color, offsetWidth, groupHeights){
     
     var originBox = getBox(origin, offsetWidth, groupHeights);
@@ -412,8 +411,6 @@ function findWithAttr(array, attr, value) {
     drawLink('2', '6', 'black', offsetWidth ,groupHeights);
 
   });
-
- //Make an SVG Container
 
 </script>
 </body>
