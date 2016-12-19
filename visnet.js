@@ -283,40 +283,40 @@
             
             var originBox = getBox(origin, data, offsetWidth, groupHeights);
             var linkBox = getBox(link, data, offsetWidth, groupHeights);
-            console.log(originBox, linkBox);
+            //console.log(originBox, linkBox);
             var lines = [];
             offsetHeight = 0;
 
             if(originBox !== null && linkBox !== null){
 
             if((originBox.left + originBox.width + 10) < linkBox.left &  originBox.top < linkBox.top){
-                console.log(origin + ' is behind and above ' + link);
-                console.log(originBox, linkBox)
+                //console.log(origin + ' is behind and above ' + link);
+                //console.log(originBox, linkBox)
                 lines = drawLineFromBehindAndAbove(originBox, linkBox, offsetWidth, offsetHeight);
             }      
             if((originBox.left + originBox.width + 10) < linkBox.left &  originBox.top > linkBox.top){
-                console.log(origin + ' is behind and below ' + link );
-                console.log(originBox, linkBox)
+                //console.log(origin + ' is behind and below ' + link );
+                //console.log(originBox, linkBox)
                 lines = drawLineFromBehindAndBelow(originBox, linkBox, offsetWidth, offsetHeight);
             }  
             if((originBox.left + originBox.width + 35) >= linkBox.left &  originBox.top < linkBox.top){
-                console.log(origin + ' is ahead and above ' + link);
-                console.log(originBox, linkBox)
+                //console.log(origin + ' is ahead and above ' + link);
+                //console.log(originBox, linkBox)
                 lines = drawLineFromAheadAndAbove(originBox, linkBox, offsetWidth, offsetHeight);
             } 
             if((originBox.left + originBox.width + 35) >= linkBox.left &  originBox.top > linkBox.top){
-                console.log(originBox, linkBox)
-                console.log(origin + ' is ahead and below ' + link );
+                //console.log(originBox, linkBox)
+                //console.log(origin + ' is ahead and below ' + link );
                 lines = drawLineFromAheadAndBelow(originBox, linkBox, offsetWidth, offsetHeight);
             }
             if((originBox.left + originBox.width) < linkBox.left &  originBox.top === linkBox.top){
-                console.log(origin + ' is behind and same height as ' + link );
-                console.log(originBox, linkBox)
+                //console.log(origin + ' is behind and same height as ' + link );
+                //console.log(originBox, linkBox)
                 lines = drawLineStraightAhead(originBox, linkBox, offsetWidth, offsetHeight);
             } 
             if((originBox.left + originBox.width +15) >=  linkBox.left &  originBox.top === linkBox.top){
-                console.log(origin + ' is ahead and same height as ' + link );
-                console.log(originBox, linkBox)
+                //console.log(origin + ' is ahead and same height as ' + link );
+                //console.log(originBox, linkBox)
                 lines = drawLineStraightBehind(originBox, linkBox, offsetWidth, offsetHeight);
             }      
             

@@ -30,7 +30,7 @@
     {id: '2', content: 'item 2', start: '2013-04-14', className:'second', group:'ID 1'},
     {id: '3', content: 'item 3', start: '2013-04-18', className:'third',  group:'ID 1'},
     {id: '4', content: 'item 4', start: '2013-04-16', end: '2013-06-19', className:'fourth', group:'ID 1'},
-    {id: '5', content: 'item 5', start: '2013-04-25', className:'fifth', group:'ID 1'},
+    {id: '5', content: 'item 5', start: '2013-04-25', className:'fifth', group:'ID 2'},
     {id: '6', content: 'item 6', start: '2013-04-27', className:'sixth', group:'ID 3'}
   ];
   var options = {};
@@ -46,6 +46,9 @@
 
 
   timeline.on('changed', function () {
+    //Checks if groups exist in timeline, 
+    //if so use Jquery to identify column label cells on left and pass width
+    //also use jquer to identify row heights
     if(timeline.groupsData.length > 0){ 
       offsetWidth = $('.vis-panel.vis-left > .vis-content')[0].clientWidth;
       groups = $('.vis-foreground .vis-group');
@@ -56,8 +59,10 @@
         groupHeights.push({ 'group':groupLabels[i].innerText, 'height':height});
       }
     }
+    //clear old lines in d3 whenever the timeline changes
     d3.selectAll("svg > *").remove();
-    var boxes = [];
+
+    //call visnet.drawlink to draw new link lines in d3 whenever timeline changes
     visnet.drawLink('1', '2', 'black', data, offsetWidth, groupHeights);
     visnet.drawLink('2', '3', 'black', data, offsetWidth, groupHeights);
     visnet.drawLink('3', '4', 'black', data, offsetWidth, groupHeights);
