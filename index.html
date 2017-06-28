@@ -9,11 +9,28 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.17.0/vis.min.css" rel="stylesheet" type="text/css" />
   <style type="text/css">
     body, html {
-      font-family: sans-serif;
+      font-family: 'Helvetica', 'Helvetica-neue', 'Roboto', sans-serif;
+      font-size:25px;
+      padding:10px 30px;
+    }
+    p{
+      line-height: 20px;
+    }
+    #visualization{
+      margin-top:50px;
+      margin-left:auto;
+      margin-right:auto;
+      width:90%
     }
   </style>
 </head>
 <body>
+  <H3>Visnet extensison charting sample</h3>
+  <p><a href="https://github.com/ConnectedReasoning/visnet" >Visnet.js</a> is an extension of the <a href="http://visjs.org">Vis JS</a> libary</p>
+  Visnet adds line arrows to timeline chart elements.</p><p> The purpose is to indicate dependencies between elements in a timeline chart
+  that can block completion of projects within specified deadlines.</p><p>  It is also possible to show dependencies between different swim lanes in 
+  a timeline
+    </p>
 <div id="visualization"></div>
 <div id="lineart"></div>
 <div id="mynetwork"></div>
