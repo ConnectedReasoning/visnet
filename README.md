@@ -5,3 +5,5 @@
 Visnet adds line arrows to timeline chart elements. Their purpose is to indicate dependencies between elements in a timeline chart that can block completion of projects within specified deadlines.
 
 It is also possible to show dependencies between different swim lanes in a timeline
+
+[visnet example](https://visnet.herokuapp.com/)
